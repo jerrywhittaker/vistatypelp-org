@@ -1,0 +1,14 @@
+# Nothing secret belongs in this project, but just in case:
+.env
+*.token
+cloudflare.token
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Local preview
+node_modules/

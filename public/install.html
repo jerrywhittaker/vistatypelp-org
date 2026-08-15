@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installing VistaType LP</title>
+<meta name="description" content="How to install the VistaType LP Word add-in: three steps, no administrator rights, and what it changes on your computer.">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="/">VistaType <span>LP</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/#what">What it does</a>
+      <a href="/#download">Download</a>
+      <a href="/install.html" aria-current="page">Installing</a>
+      <a href="https://github.com/jerrywhittaker/vistatype-lp">Source code</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section>
+    <div class="wrap prose">
+      <h1>Installing VistaType LP</h1>
+      <p class="lede">
+        Three steps and a restart. No administrator password, and your ribbon is left
+        exactly as you have it.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <ol class="steps">
+        <li>
+          <h3>Close Word and Outlook</h3>
+          <p>
+            Both hold the files open. The installer will stop and remind you if either is
+            still running.
+          </p>
+        </li>
+        <li>
+          <h3>Run the installer</h3>
+          <p>
+            Double-click <strong>VistaType LP and Braille Macros Setup</strong>. If Windows
+            shows a blue <em>“Windows protected your PC”</em> message, choose
+            <strong>More info</strong> then <strong>Run anyway</strong> — that appears
+            because the installer is not code-signed.
+          </p>
+          <p>Click through the wizard and finish. It takes under a minute.</p>
+        </li>
+        <li>
+          <h3>Restart the computer</h3>
+          <p>
+            Signing out of Windows and back in does just as well. Everything except the
+            typeface works straight away; the <strong>VistaTypeLP Legible</strong> typeface
+            is installed for you personally rather than for the whole machine — which is
+            what avoids the administrator password — and Windows only takes personal
+            typefaces into use when you sign in. Until you do, Word cannot see it and it
+            shows grayed out on the attach dialog.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap prose">
+      <h2>Check it worked</h2>
+      <ol class="plain">
+        <li>Open Word — a blank document is fine.</li>
+        <li>Look along the ribbon for <strong>VistaType LP</strong> and <strong>Braille Macros</strong>.</li>
+        <li>Click <strong>VistaType LP → Help → Version &amp; Updates</strong>. If a message appears, the macros are running.</li>
+      </ol>
+      <p>If the tabs are there and the buttons respond, you are ready to go.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap prose">
+      <h2>What it changes on your computer</h2>
+      <ul class="plain">
+        <li><strong>The macros</strong> go into Word's STARTUP folder, so they load every time Word opens.</li>
+        <li><strong>The large-print template</strong> goes into your Templates folder.</li>
+        <li><strong>The VistaTypeLP Legible typeface</strong> goes into your personal Fonts folder. It is deliberately left in place if you uninstall — removing it would reflow every book already produced with it.</li>
+        <li><strong>Two ribbon tabs</strong> are added beside your existing ones. Your ribbon is not replaced, and you can hide, rename or reorder the new tabs like any others.</li>
+        <li><strong>Quick Access Toolbar icons</strong> — you choose during the install what happens here. Your own toolbar is saved first, and you can have it back at any time.</li>
+        <li><strong>Trust settings</strong> so Word will run the macros.</li>
+      </ul>
+
+      <div class="note">
+        <p>
+          <strong>Upgrading?</strong> Close Word first, then run the new installer straight
+          over the top. There is no need to uninstall the old version. If Word is open, the
+          install quietly does nothing and the About box still shows the old version.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap prose">
+      <h2>If something is wrong</h2>
+      <p>
+        The full installation guide covers the Quick Access Toolbar choices, arranging the
+        ribbon tabs, uninstalling, and troubleshooting — including missing tabs, buttons
+        that do nothing, duplicate tabs after an upgrade, and macro security warnings.
+      </p>
+      <p>
+        <a href="https://github.com/jerrywhittaker/vistatype-lp/blob/master/docs/Installation-Guide.md">Read
+        the full installation guide</a>, or write to
+        <a href="mailto:jerry@thewhittakers.org">jerry@thewhittakers.org</a>.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p>
+      VistaType LP and Braille Macros · © 2015–2026 Jerry Whittaker · Released under the
+      GNU General Public License v3.
+    </p>
+    <p>
+      <a href="https://github.com/jerrywhittaker/vistatype-lp">Source code on GitHub</a> ·
+      <a href="/">Home</a> ·
+      <a href="mailto:jerry@thewhittakers.org">Contact</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

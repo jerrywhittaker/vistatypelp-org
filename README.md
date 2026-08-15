@@ -15,7 +15,12 @@ public/            everything that gets served — this is the whole site
   install.html       installing, in short, pointing at the full guide
   404.html           shown for an address that doesn't exist
   styles.css         all the styling
-  _headers           security headers, applied by Cloudflare Pages
+  _headers           security headers, applied by Cloudflare
+assets/            Jerry's artwork — the icon and the wordmark. Copied from the add-in
+                   project, where the originals live in assets/branding/. Nothing on
+                   the site uses them yet.
+wrangler.jsonc     the Cloudflare settings
+CLAUDE.md          the same ground in more detail, for Claude
 README.md          this file
 ```
 

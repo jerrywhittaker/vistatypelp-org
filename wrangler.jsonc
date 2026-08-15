@@ -7,8 +7,15 @@
   // "not_found_handling" tells it to show public/404.html for an address that
   // does not exist, instead of a bare Cloudflare error page.
 
+  // The site answers on vistatypelp.org. The free .workers.dev address is turned
+  // off so there is only one public name for it, and search engines cannot index
+  // the same pages twice. Preview addresses live on that same .workers.dev name,
+  // so they go with it.
+
   "name": "vistatypelp-org",
   "compatibility_date": "2026-08-15",
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "./public",
     "not_found_handling": "404-page"

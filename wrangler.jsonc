@@ -1,0 +1,16 @@
+{
+  // Cloudflare settings for the VistaType LP website.
+  //
+  // This is a static site and nothing more: there is no code to run and nothing
+  // to build. Cloudflare serves the files in public/ exactly as they are.
+  //
+  // "not_found_handling" tells it to show public/404.html for an address that
+  // does not exist, instead of a bare Cloudflare error page.
+
+  "name": "vistatypelp-org",
+  "compatibility_date": "2026-08-15",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  }
+}

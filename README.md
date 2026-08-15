@@ -35,12 +35,17 @@ cd public && python3 -m http.server 8080
 
 ## Publishing
 
-The site is served by **Cloudflare Pages**. Two settings matter:
+The site is served by **Cloudflare**, as a Worker that does nothing but hand out the
+files in `public/`. Cloudflare no longer offers new Cloudflare Pages projects in its
+dashboard, so this is the current route; it behaves the same for a static site.
+
+`wrangler.jsonc` holds the settings, so the dashboard needs almost nothing:
 
 | Setting | Value |
 |---|---|
+| Project name | `vistatypelp-org` |
 | Build command | *(leave empty)* |
-| Build output directory | `public` |
+| Deploy command | `npx wrangler deploy` (its default) |
 
 Once it is connected, pushing to this project updates the live site.
 

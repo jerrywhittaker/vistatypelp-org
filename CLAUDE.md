@@ -81,16 +81,53 @@ public/            everything served — this IS the site
   404.html           shown for an address that does not exist
   styles.css         all the styling; there is no other stylesheet
   _headers           security headers, applied by Cloudflare
+  img/               the pictures the site serves. MADE BY A SCRIPT — see below.
 assets/            Jerry's artwork, copied from the add-in project 8/15/2026.
                    vistatype-icon.png (481x515) and vistatype-wordmark.png (1573x515),
                    both transparent-background RGBA. SOURCE OF TRUTH lives in the add-in
                    project at assets/branding/ — if it changes there, re-copy, do not edit
-                   here and do not edit there from this project. Nothing on the site uses
-                   them yet.
+                   here and do not edit there from this project.
+tools/
+  preview.py         serves public/ locally, the way Cloudflare serves it
+  make-web-images.py makes everything in public/img/ out of assets/
 wrangler.jsonc     the Cloudflare settings (see below)
 CLAUDE.md          this file
 README.md          the same ground, aimed at a human reader
 ```
+
+### The pictures in `public/img/`
+
+Nothing in that folder is edited by hand. It is all made from `assets/` by one command:
+
+```bash
+python3 tools/make-web-images.py     # needs Pillow: pip install pillow
+```
+
+The finished pictures are saved into the project like any other file, so **the site still
+has no build step** — visitors are served files that are already sitting on disk. The
+script only ever needs running again if Jerry's artwork itself changes.
+
+| File | Used for |
+|---|---|
+| `wordmark.png` / `wordmark-dark.png` | the name at the top left of every page |
+| `icon.png` / `icon-dark.png` | the mark beside the headline on the front page |
+| `favicon.ico` | the little picture on a browser tab |
+| `apple-touch-icon.png` | the icon if someone saves the site to a phone's home screen |
+| `share-card.png` | the picture shown when someone posts a link to the site |
+| `icon-tile.png`, `icon-letters.png` | the tab icon's two drawings, kept in case they are wanted elsewhere |
+
+Two things about them are deliberate and worth not undoing:
+
+- **The `-dark` files are the mark redrawn for a dark page**, not merely lightened. The
+  paper goes dark and the magnifying glass goes light, so every edge that separates one
+  shape from another in Jerry's original still separates them. The pages pick between the
+  two with `<picture>`, which needs no JavaScript. Jerry's artwork is not modified.
+- **The tab icon shows the LP on its own at 16 and 32 pixels**, and the whole mark at 48 and
+  above. At tab size the paper, the glass and the letters run together into a smudge. Those
+  letters are cut out of Jerry's icon by color, not typed, so they are the shapes he drew.
+- Every picture is saved with a fixed set of 256 colors. The artwork is drawn in six flat
+  colors, so nothing visible is lost, and the front page's mark drops from 136 KB to 11 KB.
+  All the pictures together come to about 100 KB.
 
 There is **no build step**. `public/` is served exactly as it sits on disk. No Node, no npm
 install, no framework, no generator. Keep it that way unless Jerry asks otherwise — the
@@ -100,13 +137,27 @@ whole point is that he can open a file and read it.
 
 ## Looking at it
 
-Open `public/index.html` in a browser to read the text. To see it behave the way the live
-site does — with `/install` and `/styles.css` resolving from the root — serve the folder:
+**Start this after every change and give Jerry the address.** He does not read a change out
+of a diff, and this site publishes the moment it is saved — looking at the page in a browser
+is the only review step there is, so getting it in front of him is part of finishing the
+work, not an extra.
 
 ```bash
-cd public && python3 -m http.server 8080
+python3 tools/preview.py
 # then open http://localhost:8080
 ```
+
+Run it in the background so it stays up. If it is already running, leave it — the files are
+read from disk, so a reload shows the latest edit without restarting anything.
+
+**Use that script rather than `python3 -m http.server`.** Plain http.server does not drop
+the `.html` from an address the way Cloudflare does, so `/install` — the main navigation
+link — comes back not-found, and a wrong address gets Python's gray error page instead of
+`404.html`. Both would look like bugs that do not exist on the live site. `tools/preview.py`
+is a few lines of standard library that fixes exactly those two things.
+
+Opening `public/index.html` straight off disk is still fine for reading the words, but the
+links between pages will not work.
 
 ---
 
@@ -140,6 +191,13 @@ Dashboard settings that are NOT in any file here, recorded so nobody has to redi
   redirect from `www` to the bare name is a reasonable future tidy-up (Cloudflare has a
   ready-made rule for it); until then the pages carry a canonical tag naming the bare name
   as the real address, so search engines are not confused.
+- **`jerry@vistatypelp.org` is the address on the site**, and Cloudflare passes mail sent to
+  it on to Jerry (domain → Email → Routing). Confirmed working 8/15/2026. The pages used to
+  give `jerry@thewhittakers.org`; that is gone and should not come back. If the contact
+  address ever changes again, it appears **four** times — the About section and the footer
+  on the front page, and "If something is wrong" and the footer on the install page — and
+  two of those show the address as text as well as opening it, so the wording has to change
+  along with the link.
 
 ---
 
@@ -165,6 +223,32 @@ in `styles.css`; keep new work inside them.
   **VistaTypeLP Legible** as a web font is ever considered, read the OFL conditions in the
   add-in project's `assets/fonts/README.md` first — the reserved-name rules bind any copy.
 - **No JavaScript.** There is none on the site today and nothing needs it.
+
+### The colors, and where they came from
+
+The site's colors are Jerry's logo colors, read straight out of the artwork rather than
+guessed at:
+
+| | Where it is in the logo |
+|---|---|
+| `#A62728` | the crimson of "VistaType", and the LP in the lens |
+| `#2C2C29` | the warm near-black of the magnifying glass |
+| `#EFECE5` | the sheet of paper |
+| `#D4D1C6` | the lines of writing on the paper |
+
+The page uses the crimson for links, buttons, the numbered steps and the focus outline; the
+paper color for the banded sections; and the near-black, taken a little darker, for text.
+The dark color scheme uses warm dark grays rather than the blue-gray ones the site started
+with, because a cool gray next to that crimson looks like a mistake.
+
+Red is the site's accent everywhere, including the notes. It is not a warning color here —
+every note leads with a bold label, so nothing depends on the reader seeing red.
+
+**Every pairing was measured, not eyeballed.** All thirteen clear the WCAG AA minimum of
+4.5:1, and body text clears the stricter AAA level of 7:1 in both schemes. Worst case in the
+light scheme is a link on a banded section at 6.05:1; in the dark scheme, a link on a card at
+6.25:1. If you change a color, measure again — light *and* dark, and against `--bg`,
+`--surface` and `--band`, since text sits on all three.
 
 ---
 
@@ -204,8 +288,6 @@ gh release view --repo jerrywhittaker/vistatype-lp --json tagName,assets
 
 ## Things worth doing, none urgent
 
-- Use the artwork in `assets/` — at minimum a favicon and the wordmark in the page header,
-  which currently sets the name as plain text.
 - Screenshots of the two ribbon tabs. The site describes them but shows nothing, and a
   transcriber deciding whether to install would want to see them.
 - Redirect `www` to the bare name (Cloudflare → Rules → Redirect Rules; there is a template).

@@ -3,35 +3,60 @@
    to practice that. Large base type, high contrast, real focus outlines, no text
    below 1rem anywhere, and everything sized in rem so browser zoom works. */
 
+/* The colors come from Jerry's logo, sampled out of the artwork itself:
+   the crimson of "VistaType" (#A62728), the warm near-black of the magnifying
+   glass (#2C2C29), and the cream of the sheet of paper (#EFECE5). Every
+   pairing below was measured against the WCAG contrast formula and clears the
+   AA minimum with room to spare — see the table in CLAUDE.md. */
+
 :root {
-  --bg:        #FBF9F5;
-  --surface:   #FFFFFF;
-  --ink:       #14181F;
-  --muted:     #4A5261;
-  --accent:    #1B4D8F;
-  --accent-ink:#FFFFFF;
-  --border:    #DED8CD;
-  --band:      #F2EEE6;
-  --shadow:    0 1px 2px rgba(20, 24, 31, .06), 0 6px 20px rgba(20, 24, 31, .06);
+  color-scheme: light dark;
+
+  --bg:          #FAF7F2;   /* a shade off the paper in the logo */
+  --surface:     #FFFFFF;
+  --ink:         #1F1F1C;   /* the magnifying glass, taken darker for text */
+  --muted:       #55534D;
+  --accent:      #A62728;   /* exactly the red of the wordmark */
+  --accent-hover:#8E1F20;
+  --accent-ink:  #FFFFFF;
+  --accent-wash: #F7EBEA;
+  --border:      #DFD8CA;
+  --band:        #EFECE5;   /* exactly the paper in the logo */
+  --shadow:      0 1px 2px rgba(44, 44, 41, .07), 0 6px 20px rgba(44, 44, 41, .07);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:        #12151A;
-    --surface:   #1A1F27;
-    --ink:       #F2F0EC;
-    --muted:     #AAB2BF;
-    --accent:    #8CBBF7;
-    --accent-ink:#0B1119;
-    --border:    #2E3540;
-    --band:      #171C23;
-    --shadow:    none;
+    --bg:          #191714;
+    --surface:     #221F1B;
+    --ink:         #F3F0E9;
+    --muted:       #B5AFA4;
+    --accent:      #EE8078;  /* the same red, lifted to carry on a dark page */
+    --accent-hover:#F59D95;
+    --accent-ink:  #2A0E0C;
+    --accent-wash: #2C2320;
+    --border:      #38342E;
+    --band:        #1E1C18;
+    --shadow:      none;
   }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  /* "What it does" and "Download" jump down the page. Leave room for the bar
+     that now sits at the top, or they land underneath it. The bar is about
+     4.8rem tall; the rest is clearance. Sections carry their own padding
+     above the heading, so this does not need to be generous. */
+  scroll-padding-top: 5.5rem;
+}
+
+/* Narrow enough that the navigation drops onto its own line and the bar gets
+   taller. */
+@media (max-width: 48rem) {
+  html { scroll-padding-top: 8.5rem; }
+}
 
 body {
   margin: 0;
@@ -103,7 +128,16 @@ section + section { border-top: 1px solid var(--border); }
 
 /* ---------- header ---------- */
 
+/* The bar stays at the top of the window while the page scrolls, so the name
+   and the navigation are always in reach.
+
+   It has to be opaque and it has to sit above the page, or text scrolls
+   through it. The skip link is above it in turn, at z-index 10, so a keyboard
+   user still meets that first. */
 .site-head {
+  position: sticky;
+  top: 0;
+  z-index: 5;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
@@ -111,22 +145,31 @@ section + section { border-top: 1px solid var(--border); }
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 2rem;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  padding-block: 1.1rem;
+  padding-block: 1rem;
 }
+
+/* The name at the top left is Jerry's wordmark. Its height is in rem like
+   everything else, so browser zoom enlarges it along with the text. */
 .brand {
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
 }
-.brand span { color: var(--accent); }
+.brand img {
+  display: block;
+  width: auto;
+  height: 2.8rem;
+}
 
 .site-nav {
   display: flex;
   flex-wrap: wrap;
+  /* Center them against each other. Without this the row stretches every link
+     to the height of the tallest thing in it — the icon — and the words sit at
+     the top of a box that is taller than they are, riding high next to it. */
+  align-items: center;
   gap: 1.5rem;
   font-size: 1.0625rem;
 }
@@ -134,10 +177,49 @@ section + section { border-top: 1px solid var(--border); }
 .site-nav a:hover,
 .site-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; }
 
+/* The GitHub link is the mark on its own. Two things it needs that a word does
+   not: a name a screen reader can announce, which is on the link itself in the
+   HTML, and a target big enough to hit — the padding below takes it to about
+   45px square, past the 44px a touch screen wants. */
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  padding: .45rem;
+  margin-inline: -.45rem;
+  border-radius: .3rem;
+}
+.nav-icon svg {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;   /* follows the other links from muted to full ink */
+}
+
 /* ---------- hero ---------- */
 
 .hero { padding-block: clamp(3.5rem, 8vw, 6rem); }
 .hero p.lede { font-size: clamp(1.25rem, 1.1rem + .5vw, 1.45rem); max-width: 36rem; }
+
+/* The mark sits beside the headline on a wide screen, and drops below the
+   words on a narrow one — a picture ahead of the opening sentence would only
+   push the sentence off the screen. */
+.hero .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem 3rem;
+}
+.hero-words { flex: 1 1 26rem; }
+.hero-mark {
+  flex: 0 1 auto;
+  width: clamp(7rem, 20vw, 13rem);
+}
+.hero-mark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
 .btn-row {
   display: flex;
@@ -155,10 +237,12 @@ section + section { border-top: 1px solid var(--border); }
   text-decoration: none;
   border: 2px solid var(--accent);
 }
+/* Hover moves to a measured color rather than brightening the red, which would
+   have quietly thinned the contrast of the white lettering on top of it. */
 .btn-primary { background: var(--accent); color: var(--accent-ink); }
-.btn-primary:hover { filter: brightness(1.12); }
+.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 .btn-secondary { color: var(--accent); background: transparent; }
-.btn-secondary:hover { background: var(--surface); }
+.btn-secondary:hover { background: var(--accent-wash); }
 
 .meta {
   margin-top: 1.25rem;
@@ -254,6 +338,17 @@ kbd {
 }
 .site-foot a { color: var(--accent); }
 .site-foot p { max-width: 44rem; }
+
+/* On a short window the bar stops sticking and scrolls away like anything
+   else. This matters most for the reader this site is built for: zooming the
+   page in a long way shortens the window in exactly the same manner, and a bar
+   that never leaves would take a bigger and bigger bite out of the reading
+   space it is there to serve. Below this height it would be about a fifth of
+   the screen. */
+@media (max-height: 30rem) {
+  .site-head { position: static; }
+  html { scroll-padding-top: 0; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

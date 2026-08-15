@@ -16,9 +16,12 @@ public/            everything that gets served — this is the whole site
   404.html           shown for an address that doesn't exist
   styles.css         all the styling
   _headers           security headers, applied by Cloudflare
+  img/               the pictures the site serves — all made from assets/ by a script
 assets/            Jerry's artwork — the icon and the wordmark. Copied from the add-in
-                   project, where the originals live in assets/branding/. Nothing on
-                   the site uses them yet.
+                   project, where the originals live in assets/branding/.
+tools/
+  preview.py         serves public/ locally, the way Cloudflare serves it
+  make-web-images.py makes everything in public/img/ out of assets/
 wrangler.jsonc     the Cloudflare settings
 CLAUDE.md          the same ground in more detail, for Claude
 README.md          this file
@@ -26,17 +29,33 @@ README.md          this file
 
 There is no build step. The files in `public/` are the site exactly as it is served.
 
-## Working on it
-
-Open `public/index.html` in a browser and edit. Nothing to install, nothing to compile.
-
-To view it the way the live site works — with `/install.html` and `/styles.css` resolving
-from the root — serve the folder instead of opening the file directly:
+Nothing in `public/img/` is edited by hand. If the artwork ever changes, re-copy it into
+`assets/` and run the script once:
 
 ```bash
-cd public && python3 -m http.server 8080
+python3 tools/make-web-images.py     # needs Pillow: pip install pillow
+```
+
+It writes the finished pictures into `public/img/`, and they get saved into the project like
+any other file — so the site itself never depends on the script having been run.
+
+## Working on it
+
+Edit the files in `public/`. Nothing to install, nothing to compile.
+
+To see it exactly as the live site serves it:
+
+```bash
+python3 tools/preview.py
 # then open http://localhost:8080
 ```
+
+That serves `public/` the way Cloudflare does — `/install` works without the `.html`, and a
+wrong address gets `404.html` rather than Python's own error page. `python3 -m http.server`
+gets both of those wrong, which makes working links look broken.
+
+Opening `public/index.html` straight off disk is fine for reading the words, but the links
+between pages won't work.
 
 ## Publishing
 
@@ -66,6 +85,12 @@ The audience is people who make documents readable. The site has to practice tha
   keyboard users.
 - Line length is capped around 66 characters.
 - No text anywhere is smaller than 1rem, and nothing important is carried by color alone.
+
+The colors are the logo's own, read out of the artwork: the crimson `#A62728` of
+"VistaType", the warm near-black `#2C2C29` of the magnifying glass, and the paper color
+`#EFECE5`. Every text-and-background pairing was measured — all of them clear the WCAG AA
+minimum of 4.5:1, and body text clears the stricter AAA level of 7:1 in both the light and
+dark schemes. If you change a color, measure it again in both.
 
 Keep new pages inside those rules.
 

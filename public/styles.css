@@ -79,6 +79,13 @@ body {
 
 .prose { max-width: 40rem; }         /* ~66 characters */
 
+/* Keeps a name whole rather than letting it break across two lines. Only
+   above 30rem of window, because the longest thing wearing this — the license
+   name — is wider than a narrow phone screen and would run off the edge. */
+@media (min-width: 30rem) {
+  .nobreak { white-space: nowrap; }
+}
+
 h1, h2, h3 {
   line-height: 1.2;
   letter-spacing: -0.015em;

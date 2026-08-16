@@ -277,6 +277,50 @@ section + section { border-top: 1px solid var(--border); }
 .card h3 { margin-top: 0; color: var(--ink); }
 .card p  { margin-bottom: 0; color: var(--muted); max-width: none; }
 
+/* ---------- ribbon screenshots ---------- */
+
+.shots {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.shot { margin: 0; }
+
+/* The picture sits on the page's own surface color with a border, so a light
+   screenshot on a dark page reads as a picture of something rather than a hole
+   burned in the page.
+
+   The two captures are not the same width, because the Word window was not the
+   same width both times. Left alone, the wider one would be squeezed harder and
+   its buttons would come out smaller than the other's. --shot-scale holds the
+   narrower picture back by the same proportion, so a button is the same size in
+   both. It is set on the tag, next to the picture the number belongs to. */
+.shot-frame {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: .6rem;
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+  padding: .5rem;
+  max-width: var(--shot-scale, 100%);
+}
+
+.shot-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Below this the ribbon's own labels stop being readable, so the frame
+     scrolls sideways instead of shrinking the picture past legibility. */
+  min-width: 46rem;
+}
+
+.shot figcaption {
+  margin-top: .75rem;
+  color: var(--muted);
+}
+.shot figcaption strong { color: var(--ink); }
+
 /* ---------- steps & lists ---------- */
 
 .steps {

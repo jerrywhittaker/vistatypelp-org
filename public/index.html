@@ -81,10 +81,39 @@
       <div class="prose">
         <h2>What it does</h2>
         <p>
-          After installation, two new tabs will appear on the Word ribbon —
+          After installation, two new tabs and their ribbons will appear on the Word screen —
           <strong>VistaType&nbsp;LP</strong> and <strong>Braille Macros</strong>. The tabs
           are added to your existing tabs; no existing tabs are deleted.
         </p>
+      </div>
+
+      <!-- The alt text names the groups along each tab, because that is what
+           the picture tells a sighted reader and it is the part worth having
+           if the picture cannot be seen. -->
+      <div class="shots">
+        <figure class="shot">
+          <!-- A ribbon is far wider than it is tall, so on a phone it slides
+               sideways rather than shrinking to nothing. Anything that scrolls
+               has to be reachable from the keyboard too, hence tabindex. -->
+          <div class="shot-frame" tabindex="0" role="img" style="--shot-scale: 85.8%"
+               aria-label="The VistaType LP tab open on the Word ribbon. Its buttons are
+                           gathered into groups named Attach, File Cleanup, Reference Page
+                           Numbers, Other Formatting Tools, Export/Import, DAISY, NIMAS
+                           and Text Tools, and Help.">
+            <img src="/img/ribbon-lp.png" alt="" width="1592" height="122">
+          </div>
+          <figcaption>The <strong>VistaType&nbsp;LP</strong> tab.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame" tabindex="0" role="img"
+               aria-label="The Braille Macros tab open on the Word ribbon. Its buttons are
+                           gathered into groups named Attach, File Cleanup, Reference Page
+                           Number Formatting, Other Formatting Tools, Export/Import,
+                           DAISY, NIMAS, and Text Tools, and Help.">
+            <img src="/img/ribbon-brl.png" alt="" width="1856" height="122">
+          </div>
+          <figcaption>The <strong>Braille&nbsp;Macros</strong> tab.</figcaption>
+        </figure>
       </div>
 
       <ul class="cards">

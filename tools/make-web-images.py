@@ -135,6 +135,56 @@ def main():
     print("Picture shown when someone shares a link:")
     save(share_card(wordmark), "share-card.png")
 
+    screenshots()
+
+
+# Jerry's raw captures go in assets/screenshots/ under these names; the site
+# serves the shrunk copies on the right. Missing ones are skipped, so this
+# script still runs before they have been taken.
+SCREENSHOTS = {
+    "ribbon-vistatype-lp.png": "ribbon-lp.png",
+    "ribbon-braille-macros.png": "ribbon-brl.png",
+}
+
+# Twice the widest the page ever draws them, so they stay sharp on a high
+# resolution screen. A capture narrower than this is left at its own size
+# rather than being blown up.
+SHOT_WIDTH = 2240
+
+
+def screenshots():
+    """Shrink the ribbon captures for the front page.
+
+    Unlike the artwork these are NOT cut down to 256 colors — a screenshot is
+    full of softened text edges and shading, and flattening it would smear the
+    ribbon's own labels, which are the whole point of showing it.
+
+    If a capture's size changes, the width and height on the <img> tags in
+    index.html have to change with it, or the page jumps as the picture loads.
+    This prints the numbers to paste in.
+    """
+    src_dir = ROOT / "assets" / "screenshots"
+    found = False
+    for src_name, out_name in SCREENSHOTS.items():
+        src = src_dir / src_name
+        if not src.exists():
+            continue
+        if not found:
+            print("Ribbon screenshots:")
+            found = True
+        im = Image.open(src).convert("RGB")
+        if im.width > SHOT_WIDTH:
+            im = fit_width(im, SHOT_WIDTH)
+        path = OUT / out_name
+        im.save(path, optimize=True)
+        print(
+            f"  {path.relative_to(ROOT)}  {im.width}x{im.height}  "
+            f"{path.stat().st_size // 1024} KB"
+            f"   <img … width=\"{im.width}\" height=\"{im.height}\">"
+        )
+    if not found:
+        print(f"Ribbon screenshots: none yet — put captures in {src_dir.relative_to(ROOT)}/")
+
 
 def red_tile(size, radius_fraction=0.22):
     from PIL import ImageDraw

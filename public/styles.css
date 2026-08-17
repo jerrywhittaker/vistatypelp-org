@@ -324,6 +324,55 @@ section + section { border-top: 1px solid var(--border); }
 }
 .shot figcaption strong { color: var(--ink); }
 
+/* ---------- samples of finished work ---------- */
+
+.samples {
+  display: grid;
+  gap: 2.75rem 2rem;
+  margin-top: 2.5rem;
+}
+
+/* Once there is room, the two tablets sit side by side and the printed pages
+   go across the top on their own. Started at the top because paper is what
+   most of this work ends up as, and given the whole width because the three
+   pages are fanned out sideways and want the room. */
+@media (min-width: 46rem) {
+  .samples {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  .sample-paper { grid-column: 1 / -1; }
+}
+
+.sample { margin: 0; }
+
+/* No box drawn round these, unlike the ribbon captures below. Each picture is
+   already cut out with nothing behind it — the printed pages carry their own
+   shadow, and the tablets their own rounded corners — so a frame would only
+   be a second edge fighting the one in the picture. Both read on a light page
+   and a dark one as they are: the paper is white and the tablets are a gray
+   lighter than the dark page's background. */
+.sample img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+/* Held a little under its own size, so it stays sharp rather than being
+   stretched across the full width of the row it has to itself. */
+.sample-paper img { max-width: 33rem; }
+
+/* Held to the same width as the picture above it and lined up with its left
+   edge. A caption here runs to a full sentence naming what to look at, and a
+   sentence that long is harder to read centered than ranged left. */
+.sample figcaption {
+  margin-top: 1rem;
+  color: var(--muted);
+  max-width: 33rem;
+  margin-inline: auto;
+}
+
 /* ---------- steps & lists ---------- */
 
 .steps {

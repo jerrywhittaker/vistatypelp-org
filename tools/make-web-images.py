@@ -151,6 +151,21 @@ SCREENSHOTS = {
 # rather than being blown up.
 SHOT_WIDTH = 2240
 
+# The samples of finished work near the top of the front page. Jerry's raw
+# captures on the left, what the site serves on the right, and the width to
+# shrink each one to — they are three different shapes, so one shared number
+# would not do.
+#
+# These keep their see-through background, which the ribbon captures do not
+# need: the paper pages are cut out with a shadow behind them, and the tablets
+# have rounded corners. Kept that way, each sits on the page's own color and
+# looks right in the light and the dark scheme alike.
+SAMPLES = {
+    "Paper Pages.PNG": ("sample-paper.png", 900),
+    "Large iPad Flyer Page.png": ("sample-ipad-large.png", 900),
+    "Small iPad Flyer Page.png": ("sample-ipad-small.png", 1000),
+}
+
 
 def screenshots():
     """Shrink the ribbon captures for the front page.
@@ -184,6 +199,43 @@ def screenshots():
         )
     if not found:
         print(f"Ribbon screenshots: none yet — put captures in {src_dir.relative_to(ROOT)}/")
+
+    samples(src_dir)
+
+
+def samples(src_dir):
+    """Shrink the samples of finished work for the front page.
+
+    These ARE cut down to 256 colors, where the ribbon captures above are not.
+    The reason the ribbon is left alone is that its button labels are tiny and
+    flattening the color smears them. Everything worth reading in a sample is
+    large print, so it survives the flattening with nothing visible lost, and
+    the three of them together drop from about 900 KB to under 200 KB.
+
+    If a capture's size changes, the width and height on the <img> tags in
+    index.html have to change with it, or the page jumps as the picture loads.
+    This prints the numbers to paste in.
+    """
+    found = False
+    for src_name, (out_name, width) in SAMPLES.items():
+        src = src_dir / src_name
+        if not src.exists():
+            continue
+        if not found:
+            print("Samples of finished work:")
+            found = True
+        im = Image.open(src).convert("RGBA")
+        if im.width > width:
+            im = fit_width(im, width)
+        path = OUT / out_name
+        compress(im).save(path, optimize=True)
+        print(
+            f"  {path.relative_to(ROOT)}  {im.width}x{im.height}  "
+            f"{path.stat().st_size // 1024} KB"
+            f"   <img … width=\"{im.width}\" height=\"{im.height}\">"
+        )
+    if not found:
+        print(f"Samples: none yet — put captures in {src_dir.relative_to(ROOT)}/")
 
 
 def red_tile(size, radius_fraction=0.22):

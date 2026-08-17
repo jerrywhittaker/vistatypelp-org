@@ -275,7 +275,10 @@ section + section { border-top: 1px solid var(--border); }
   box-shadow: var(--shadow);
 }
 .card h3 { margin-top: 0; color: var(--ink); }
-.card p  { margin-bottom: 0; color: var(--muted); max-width: none; }
+/* Only the last paragraph loses its bottom margin — a card with two paragraphs
+   still gets a gap between them, and the card still ends flush. */
+.card p  { color: var(--muted); max-width: none; }
+.card p:last-child { margin-bottom: 0; }
 
 /* ---------- ribbon screenshots ---------- */
 

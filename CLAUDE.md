@@ -220,7 +220,7 @@ in `styles.css`; keep new work inside them.
 - `prefers-reduced-motion` is honored. Do not add animation that ignores it.
 - **No web fonts.** The site uses the reader's own system font stack, which is the most
   legible thing available on any machine and costs nothing to load. If shipping
-  **VistaTypeLP Legible** as a web font is ever considered, read the OFL conditions in the
+  **VistaTypeLP Sans** as a web font is ever considered, read the OFL conditions in the
   add-in project's `assets/fonts/README.md` first — the reserved-name rules bind any copy.
 - **No JavaScript.** There is none on the site today and nothing needs it.
 
